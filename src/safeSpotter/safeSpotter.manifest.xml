@@ -1,0 +1,28 @@
+<manifest>
+    <main-class>safeSpotter.safeSpotter</main-class>
+    <name>SaferSpotter</name>
+    <tag-line>Safe spots</tag-line><!--Max of 50 chars-->
+    <description>Safe spots</description><!--Max of 110 chars-->
+    <version>1.0.2</version>
+    <compatibility>
+        <game>OSRS</game>
+    </compatibility>
+    <categories>
+        <category>COMBAT</category>
+    </categories>
+    <!--Required to publish on the bot store-->
+    <internal-id>safeSpotter42</internal-id>
+    <!--The rest are optional-->
+    <open-source>true</open-source>
+    <hidden>false</hidden> <!--If you need to hide it from the bot store for maintenance-->
+    <access>public</access>
+    <tags>
+        <tag>SafeSpot</tag>
+        <tag>Range</tag>
+        <tag>Mage</tag>
+        <tag>Magic</tag>
+    </tags>
+    <resources>
+        <resource></resource>
+    </resources>
+</manifest>
