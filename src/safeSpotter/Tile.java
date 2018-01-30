@@ -8,7 +8,7 @@ public class Tile {
         0 doesn't exist and can be walked across (tiles with nothing on them)
         1 can not be walked through but can be shot through (a fence)
         2 can not be walked through or shot through (a thin wall) */
-    public int solidity; /*
+    public int solidity = 0; /*
         0 can be walked on (tiles with nothing on them)
         1 can not be walked but can be shot over (a table)
         2 can not be walked or shot over (a thick castle wall) */
@@ -22,11 +22,10 @@ public class Tile {
                 (collisionFlags & CollisionFlags.RANGEABLE_OBJECT) == CollisionFlags.RANGEABLE_OBJECT ||
                 (collisionFlags & CollisionFlags.OBJECT_TILE) == CollisionFlags.OBJECT_TILE){
             this.solidity = 1;
-        }else if((collisionFlags & CollisionFlags.BLOCKED_TILE) == CollisionFlags.BLOCKED_TILE ||
+        }
+        if((collisionFlags & CollisionFlags.BLOCKED_TILE) == CollisionFlags.BLOCKED_TILE ||
                 (collisionFlags & CollisionFlags.UNSTEPPABLE_OBJECT) == CollisionFlags.UNSTEPPABLE_OBJECT){
             this.solidity = 2;
-        }else{
-            this.solidity = 0;
         }
 
         //note: the sides are initialised to 0, I'm just going to assume RANGE_BLOCKING boundaries will override the normal boundaries

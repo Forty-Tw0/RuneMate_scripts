@@ -41,26 +41,45 @@ public class safeSpotter extends LoopingBot{
         int size = (int)Math.sqrt(tiles.length);
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
-                if (tiles[y*size+x].nw == 0) System.out.print("\u001B[0m+");
-                if (tiles[y*size+x].nw == 1) System.out.print("\u001B[32m+");
-                if (tiles[y*size+x].nw == 2) System.out.print("\u001B[31m+");
-                if (tiles[y*size+x].n == 0) System.out.print("\u001B[0m---");
-                if (tiles[y*size+x].n == 1) System.out.print("\u001B[32m---");
-                if (tiles[y*size+x].n == 2) System.out.print("\u001B[31m---");
-                if (tiles[y*size+x].ne == 0) System.out.print("\u001B[0m+");
-                if (tiles[y*size+x].ne == 1) System.out.print("\u001B[32m+");
-                if (tiles[y*size+x].ne == 2) System.out.print("\u001B[31m+");
+                if (y == 0 || y == size-1) {
+                    if (tiles[y * size + x].nw == 0) System.out.print("\u001B[0m+");
+                    if (tiles[y * size + x].nw == 1) System.out.print("\u001B[32m+");
+                    if (tiles[y * size + x].nw == 2) System.out.print("\u001B[31m+");
+                    if (tiles[y * size + x].n == 0) System.out.print("\u001B[0m---");
+                    if (tiles[y * size + x].n == 1) System.out.print("\u001B[32m---");
+                    if (tiles[y * size + x].n == 2) System.out.print("\u001B[31m---");
+                    if (tiles[y * size + x].ne == 0) System.out.print("\u001B[0m+");
+                    if (tiles[y * size + x].ne == 1) System.out.print("\u001B[32m+");
+                    if (tiles[y * size + x].ne == 2) System.out.print("\u001B[31m+");
+                } else {
+                    if ((tiles[y * size + x].nw > tiles[y * size + x - size].sw ? tiles[y * size + x].nw : tiles[y * size + x - size].sw) == 0)
+                        System.out.print("\u001B[0m+");
+                    if ((tiles[y * size + x].nw > tiles[y * size + x - size].sw ? tiles[y * size + x].nw : tiles[y * size + x - size].sw) == 1)
+                        System.out.print("\u001B[32m+");
+                    if ((tiles[y * size + x].nw > tiles[y * size + x - size].sw ? tiles[y * size + x].nw : tiles[y * size + x - size].sw) == 2)
+                        System.out.print("\u001B[31m+");
+                    if ((tiles[y * size + x].n > tiles[y * size + x - size].s ? tiles[y * size + x].n : tiles[y * size + x - size].s) == 0)
+                        System.out.print("\u001B[0m---");
+                    if ((tiles[y * size + x].n > tiles[y * size + x - size].s ? tiles[y * size + x].n : tiles[y * size + x - size].s) == 1)
+                        System.out.print("\u001B[32m---");
+                    if ((tiles[y * size + x].n > tiles[y * size + x - size].s ? tiles[y * size + x].n : tiles[y * size + x - size].s) == 2)
+                        System.out.print("\u001B[31m---");
+                    if ((tiles[y * size + x].ne > tiles[y * size + x - size].se ? tiles[y * size + x].ne : tiles[y * size + x - size].se) == 0)
+                        System.out.print("\u001B[0m+");
+                    if ((tiles[y * size + x].ne > tiles[y * size + x - size].se ? tiles[y * size + x].ne : tiles[y * size + x - size].se) == 1)
+                        System.out.print("\u001B[32m+");
+                    if ((tiles[y * size + x].ne > tiles[y * size + x - size].se ? tiles[y * size + x].ne : tiles[y * size + x - size].se) == 2)
+                        System.out.print("\u001B[31m+");
+                }
             }
-            System.out.print('\n');
+            System.out.print("\u001B[0m\n");
             for (int x = 0; x < size; x++) {
                 if (tiles[y*size+x].w == 0) System.out.print("\u001B[0m| ");
                 if (tiles[y*size+x].w == 1) System.out.print("\u001B[32m| ");
                 if (tiles[y*size+x].w == 2) System.out.print("\u001B[31m| ");
                 if (Players.getLocal().getPosition().getX() == tiles[y*size+x].x &&
                         Players.getLocal().getPosition().getY() == tiles[y*size+x].y){
-                    if (tiles[y*size+x].solidity == 0) System.out.print("\u001B[36mO");
-                    if (tiles[y*size+x].solidity == 1) System.out.print("\u001B[36mO");
-                    if (tiles[y*size+x].solidity == 2) System.out.print("\u001B[36mO");
+                    System.out.print("\u001B[36mO");
                 }else{
                     if (tiles[y*size+x].solidity == 0) System.out.print("\u001B[0m ");
                     if (tiles[y*size+x].solidity == 1) System.out.print("\u001B[32m#");
@@ -70,19 +89,21 @@ public class safeSpotter extends LoopingBot{
                 if (tiles[y*size+x].e == 1) System.out.print("\u001B[32m |");
                 if (tiles[y*size+x].e == 2) System.out.print("\u001B[31m |");
             }
-            System.out.print('\n');
-            for (int x = 0; x < size; x++) {
-                if (tiles[y*size+x].sw == 0) System.out.print("\u001B[0m+");
-                if (tiles[y*size+x].sw == 1) System.out.print("\u001B[32m+");
-                if (tiles[y*size+x].sw == 2) System.out.print("\u001B[31m+");
-                if (tiles[y*size+x].s == 0) System.out.print("\u001B[0m---");
-                if (tiles[y*size+x].s == 1) System.out.print("\u001B[32m---");
-                if (tiles[y*size+x].s == 2) System.out.print("\u001B[31m---");
-                if (tiles[y*size+x].se == 0) System.out.print("\u001B[0m+");
-                if (tiles[y*size+x].se == 1) System.out.print("\u001B[32m+");
-                if (tiles[y*size+x].se == 2) System.out.print("\u001B[31m+");
-            }
             System.out.print("\u001B[0m\n");
+            if (y == size-1){
+                for (int x = 0; x < size; x++) {
+                    if (tiles[y*size+x].sw == 0) System.out.print("\u001B[0m+");
+                    if (tiles[y*size+x].sw == 1) System.out.print("\u001B[32m+");
+                    if (tiles[y*size+x].sw == 2) System.out.print("\u001B[31m+");
+                    if (tiles[y*size+x].s == 0) System.out.print("\u001B[0m---");
+                    if (tiles[y*size+x].s == 1) System.out.print("\u001B[32m---");
+                    if (tiles[y*size+x].s == 2) System.out.print("\u001B[31m---");
+                    if (tiles[y*size+x].se == 0) System.out.print("\u001B[0m+");
+                    if (tiles[y*size+x].se == 1) System.out.print("\u001B[32m+");
+                    if (tiles[y*size+x].se == 2) System.out.print("\u001B[31m+");
+                }
+                System.out.print("\u001B[0m\n");
+            }
         }
     }
 }
