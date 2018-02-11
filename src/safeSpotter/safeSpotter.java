@@ -25,13 +25,21 @@ public class safeSpotter extends LoopingBot{
     @Override
     public void onLoop(){
         Tile[] map = collisionMap(5);
-        List<int[]> npcTiles = getAllNpcTiles(Npcs.newQuery().targeting(Players.getLocal()).actions("Attack")
-                .filter(npc -> npc.getHealthGauge() == null ||
-                (npc.getHealthGauge() != null && npc.getHealthGauge().getPercent() != 0)).results());
+        List<npcWrapper> npcs = new ArrayList<>();
+        Npcs.newQuery().targeting(Players.getLocal()).actions("Attack").filter(npc -> npc.getHealthGauge() == null ||
+                (npc.getHealthGauge() != null && npc.getHealthGauge().getPercent() != 0)).results().asList()
+                .forEach(npc -> npcs.add(new npcWrapper(npc)));
 
-        drawMap(map, npcTiles);
+        List<int[]> npcRealTiles = new ArrayList<>();
+        npcs.forEach(npc -> npcRealTiles.add(npc.getRealPosition()));
 
-        /**/
+        List<int[]> npcTiles = new ArrayList<>();
+        npcs.forEach(npc -> npcTiles.addAll(npc.getNpcArea()));
+
+        System.out.print("\n");
+        drawMap(map, npcRealTiles, npcTiles);
+
+        /*
         if (Players.getLocal() != null) {
             if (Players.getLocal().getTarget() == null) {
                 if(!Npcs.newQuery().targeting(Players.getLocal()).filter(npc -> npc.getHealthGauge() == null || (npc.getHealthGauge() != null && npc.getHealthGauge().getPercent() != 0)).results().isEmpty()){
@@ -64,23 +72,6 @@ public class safeSpotter extends LoopingBot{
         /**/
     }
 
-    public List<int[]> getNpcArea(Npc npc){
-        int size = npc.getDefinition().getAreaEdgeLength();
-        List<int[]> tiles = new ArrayList<>();
-        for(int y = 0; y < size; y++){
-            for(int x = 0; x < size; x++){
-                tiles.add(new int[]{npc.getPosition().getX() + x - size + 1, npc.getPosition().getY() - y});
-            }
-        }
-        return tiles;
-    }
-
-    public List<int[]> getAllNpcTiles(LocatableEntityQueryResults<Npc> npcs){
-        List<int[]> tiles = new ArrayList<>();
-        npcs.forEach((npc) -> tiles.addAll(getNpcArea(npc)));
-        return tiles;
-    }
-
     public Tile[] collisionMap(int radius) {
         Tile[] map = new Tile[(int)Math.pow(radius*2+1, 2)];
 
@@ -97,7 +88,7 @@ public class safeSpotter extends LoopingBot{
         return map;
     }
 
-    public void drawMap(Tile[] tiles, List<int[]> npcTiles) {
+    public void drawMap(Tile[] tiles, List<int[]> npcRealTiles, List<int[]> npcTiles) {
         int size = (int) Math.sqrt(tiles.length);
         for (int y = 0; y < size; y++) {
             for (int x = 0; x < size; x++) {
@@ -137,13 +128,11 @@ public class safeSpotter extends LoopingBot{
                     if (tile.getSolidity() == 2) System.out.print("\u001B[31m#");
                 } else if (Players.getLocal().getPosition().getX() == tile.coordinate.getX() &&
                         Players.getLocal().getPosition().getY() == tile.coordinate.getY()) {
-                    System.out.print("\u001B[36mO");
+                    System.out.print("\u001B[1m\u001B[36mO");
+                } else if(isInList(npcRealTiles, new int[]{tile.coordinate.getX(), tile.coordinate.getY()})) {
+                    System.out.print("\u001B[1m\u001B[93m#");
                 } else if(isInList(npcTiles, new int[]{tile.coordinate.getX(), tile.coordinate.getY()})) {
                     System.out.print("\u001B[33m#");
-                /*} else if (tile.containsNPC() == 1) {
-                    System.out.print("\u001B[93m#");
-                } else if (tile.containsNPC() == 2) {
-                    System.out.print("\u001B[33m#");*/
                 } else {
                     System.out.print("\u001B[0m ");
                 }

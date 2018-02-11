@@ -1,8 +1,6 @@
 package safeSpotter;
 
 import com.runemate.game.api.hybrid.location.Coordinate;
-import com.runemate.game.api.hybrid.region.Npcs;
-import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.hybrid.region.Region.CollisionFlags;
 
 public class Tile{
@@ -119,20 +117,5 @@ public class Tile{
         }else{
             return 0;
         }
-    }
-
-    //an npc's position is tied to the root tile, think of it as though it's legs are here
-    public int containsNPC(){
-        int type = 0;
-        if (!Npcs.newQuery().on(coordinate).targeting(Players.getLocal()).actions("Attack")
-                .filter(npc -> npc.getHealthGauge() == null ||
-                        (npc.getHealthGauge() != null && npc.getHealthGauge().getPercent() != 0)).results().isEmpty()){
-            type = 1; //this is the root tile, this is where the npc's position technically is
-        } else if (!Npcs.newQuery().targeting(Players.getLocal()).actions("Attack")
-                .filter(npc -> npc.getArea().getCoordinates().contains(coordinate) && npc.getHealthGauge() == null ||
-                        (npc.getHealthGauge() != null && npc.getHealthGauge().getPercent() != 0)).results().isEmpty()){
-            //type = 2; //this is part of the npc body which extends from the root
-        }
-        return type;
     }
 }
