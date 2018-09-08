@@ -1,0 +1,28 @@
+<manifest>
+    <main-class>moonMoney.moonMoney</main-class>
+    <name>MoonMoney</name>
+    <tag-line></tag-line><!--Max of 50 chars-->
+    <description>Makes money with Lunars</description><!--Max of 110 chars-->
+    <version>1.0.2</version>
+    <compatibility>
+        <game>OSRS</game>
+    </compatibility>
+    <categories>
+        <category>MAGIC</category>
+    </categories>
+    <!--Required to publish on the bot store-->
+    <internal-id>moonMoney42</internal-id>
+    <!--The rest are optional-->
+    <open-source>true</open-source>
+    <hidden>false</hidden> <!--If you need to hide it from the bot store for maintenance-->
+    <access>public</access>
+    <tags>
+        <tag>Lunar</tag>
+        <tag>Lunars</tag>
+        <tag>Money</tag>
+        <tag>Glass</tag>
+    </tags>
+    <resources>
+        <resource></resource>
+    </resources>
+</manifest>

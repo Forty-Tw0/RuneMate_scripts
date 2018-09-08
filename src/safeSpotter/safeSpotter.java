@@ -15,12 +15,8 @@ import java.util.stream.Collectors;
 public class safeSpotter extends LoopingBot{
     @Override
     public void onStart(String... args){
-        setLoopDelay(200);
+        setLoopDelay(142, 842);
     }
-
-    //When a NPC is chasing you it will first move diagonally until it aligns with your character horizontally or vertically.
-    //If the NPC is 2-squared or even more the NPC will try to align the south-west corner.
-    //http://i.imgur.com/A8SyuPS.png
 
     @Override
     public void onLoop(){
@@ -39,7 +35,6 @@ public class safeSpotter extends LoopingBot{
         System.out.print("\n");
         drawMap(map, npcRealTiles, npcTiles);
 
-        /*
         if (Players.getLocal() != null) {
             if (Players.getLocal().getTarget() == null) {
                 if(!Npcs.newQuery().targeting(Players.getLocal()).filter(npc -> npc.getHealthGauge() == null || (npc.getHealthGauge() != null && npc.getHealthGauge().getPercent() != 0)).results().isEmpty()){
@@ -58,22 +53,16 @@ public class safeSpotter extends LoopingBot{
             } else {
                 System.out.println("In combat.");
                 //ensure we are still safe, if not move back to a safe spot - loop this since npcs can drag us out
-                Tile[] safeTiles = findSafeSpots(map, Players.getLocal().getPosition(),
-                        Npcs.newQuery().names("Cave horror").actions("Attack").filter(
-                                npc -> npc.getHealthGauge() == null ||
-                                        (npc.getHealthGauge() != null && npc.getHealthGauge().getPercent() != 0)
-                        ).results());
+                Tile[] safeTiles = findSafeSpots(map, npcs);
                 if(!tilesContain(safeTiles, Players.getLocal().getPosition())){
                     //safeTiles.nearestTo().click();
                 }
-
             }
         }
-        /**/
     }
 
     public Tile[] collisionMap(int radius) {
-        Tile[] map = new Tile[(int)Math.pow(radius*2+1, 2)];
+        Tile[] map = new Tile[(int)Math.pow(radius * 2 + 1, 2)];
 
         int i = 0;
         for (int y = -radius; y <= radius; y++) {
@@ -177,8 +166,11 @@ public class safeSpotter extends LoopingBot{
         return false;
     }
 
-    public Tile[] findSafeSpots(Tile[] map, Coordinate player, LocatableEntityQueryResults<Npc> targets){
+    public Tile[] findSafeSpots(Tile[] map, List<npcWrapper> npcs){
         Tile[] tiles = map;
+
+        npcs.forEach(npc -> npc.hasPathToTile(new int[] {Players.getLocal().getPosition().getX(), Players.getLocal().getPosition().getY()}, map));
+
         return tiles;
     }
 }

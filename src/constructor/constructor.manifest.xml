@@ -1,0 +1,25 @@
+<manifest>
+    <main-class>constructor.constructor</main-class>
+    <name>Constructor</name>
+    <tag-line></tag-line><!--Max of 50 chars-->
+    <description>Makes Mythical cape mounts</description><!--Max of 110 chars-->
+    <version>1.0.0</version>
+    <compatibility>
+        <game>OSRS</game>
+    </compatibility>
+    <categories>
+        <category>CONSTRUCTION</category>
+    </categories>
+    <!--Required to publish on the bot store-->
+    <internal-id>constructor42</internal-id>
+    <!--The rest are optional-->
+    <open-source>true</open-source>
+    <hidden>false</hidden> <!--If you need to hide it from the bot store for maintenance-->
+    <access>public</access>
+    <tags>
+        <tag>Construction</tag>
+    </tags>
+    <resources>
+        <resource></resource>
+    </resources>
+</manifest>

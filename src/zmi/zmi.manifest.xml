@@ -1,0 +1,28 @@
+<manifest>
+    <main-class>zmi.zmi</main-class>
+    <name>ZMI</name>
+    <tag-line></tag-line><!--Max of 50 chars-->
+    <description>ZMI</description><!--Max of 110 chars-->
+    <version>1.0.0</version>
+    <compatibility>
+        <game>OSRS</game>
+    </compatibility>
+    <categories>
+        <category>RUNECRAFTING</category>
+    </categories>
+    <!--Required to publish on the bot store-->
+    <internal-id>zmi42</internal-id>
+    <!--The rest are optional-->
+    <open-source>true</open-source>
+    <hidden>false</hidden> <!--If you need to hide it from the bot store for maintenance-->
+    <access>public</access>
+    <tags>
+        <tag>Lunar</tag>
+        <tag>Lunars</tag>
+        <tag>ZMI</tag>
+        <tag>runecrafting</tag>
+    </tags>
+    <resources>
+        <resource></resource>
+    </resources>
+</manifest>
