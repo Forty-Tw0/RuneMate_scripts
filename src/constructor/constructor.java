@@ -1,5 +1,6 @@
 package constructor;
 
+import com.runemate.game.api.hybrid.GameEvents;
 import com.runemate.game.api.hybrid.entities.GameObject;
 import com.runemate.game.api.hybrid.entities.Npc;
 import com.runemate.game.api.hybrid.entities.Player;
@@ -55,6 +56,7 @@ public class constructor extends LoopingBot {
     @Override
     public void onStart(String... args) {
         setLoopDelay(142, 842);
+        GameEvents.OSRS.NPC_DISMISSER.disable();
     }
 
     @Override

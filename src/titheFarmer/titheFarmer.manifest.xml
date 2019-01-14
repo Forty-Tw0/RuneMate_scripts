@@ -1,17 +1,17 @@
 <manifest>
-    <main-class>moonMoney.moonMoney</main-class>
-    <name>MoonMoney</name>
+    <main-class>titheFarmer.titheFarmer</main-class>
+    <name>TitheFarmer</name>
     <tag-line></tag-line><!--Max of 50 chars-->
-    <description>Makes money with Lunars</description><!--Max of 110 chars-->
-    <version>1.0.2</version>
+    <description>titheFarmer</description><!--Max of 110 chars-->
+    <version>1.0.0</version>
     <compatibility>
         <game>OSRS</game>
     </compatibility>
     <categories>
-        <category>MAGIC</category>
+        <category>FARMING</category>
     </categories>
     <!--Required to publish on the bot store-->
-    <internal-id>moonMoney42</internal-id>
+    <internal-id>titheFarmer42</internal-id>
     <!--The rest are optional-->
     <open-source>true</open-source>
     <hidden>false</hidden> <!--If you need to hide it from the bot store for maintenance-->
@@ -19,8 +19,9 @@
     <tags>
         <tag>Lunar</tag>
         <tag>Lunars</tag>
-        <tag>Money</tag>
-        <tag>Glass</tag>
+        <tag>Farming</tag>
+        <tag>Tithe</tag>
+        <tag>Tithe Farming</tag>
     </tags>
     <resources>
         <resource></resource>

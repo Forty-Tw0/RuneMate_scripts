@@ -1,26 +1,27 @@
 <manifest>
-    <main-class>safeSpotter.safeSpotter</main-class>
-    <name>SafeSpotter</name>
-    <tag-line>Safe spots</tag-line><!--Max of 50 chars-->
-    <description>Safe spots</description><!--Max of 110 chars-->
-    <version>1.0.2</version>
+    <main-class>bankSkiller.bankSkiller</main-class>
+    <name>BankSkiller</name>
+    <tag-line></tag-line><!--Max of 50 chars-->
+    <description>Does stuff at the bank</description><!--Max of 110 chars-->
+    <version>1.0.0</version>
     <compatibility>
         <game>OSRS</game>
     </compatibility>
     <categories>
-        <category>COMBAT</category>
+        <category>MONEYMAKING</category>
     </categories>
     <!--Required to publish on the bot store-->
-    <internal-id>safeSpotter42</internal-id>
+    <internal-id>bankSkiller42</internal-id>
     <!--The rest are optional-->
     <open-source>true</open-source>
     <hidden>false</hidden> <!--If you need to hide it from the bot store for maintenance-->
     <access>public</access>
     <tags>
-        <tag>SafeSpot</tag>
-        <tag>Range</tag>
-        <tag>Mage</tag>
-        <tag>Magic</tag>
+        <tag>Lunar</tag>
+        <tag>Lunars</tag>
+        <tag>Money</tag>
+        <tag>Glass</tag>
+        <tag>Wine</tag>
     </tags>
     <resources>
         <resource></resource>
