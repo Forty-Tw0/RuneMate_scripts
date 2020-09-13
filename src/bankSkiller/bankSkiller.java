@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class bankSkiller extends LoopingBot {
     @Override
     public void onStart(String... args){
-        setLoopDelay(142, 642);
+        setLoopDelay(142, 242);
         GameEvents.OSRS.NPC_DISMISSER.disable();
     }
 
@@ -27,7 +27,7 @@ public class bankSkiller extends LoopingBot {
 
     @Override
     public void onLoop() {
-        stringing();
+        superGlass();
     }
 
     void stringing() {
@@ -88,28 +88,24 @@ public class bankSkiller extends LoopingBot {
                 break;
             case 1:
                 if (Inventory.containsAnyExcept("Astral rune")) {
+                    if (Inventory.getQuantity("Astral rune") < 1) pause();
                     Bank.depositInventory();
                 } else {
                     state++;
                 }
                 break;
             case 2:
-                if (Inventory.getQuantity("Bucket of sand") != 13) {
-                    Bank.withdraw("Bucket of sand", 13);
+                if (Inventory.getQuantity("Bucket of sand") != 18) {
+                    if (Bank.getQuantity("Bucket of sand") < 18) pause();
+                    Bank.withdraw("Bucket of sand", 18);
                 } else {
                     state++;
                 }
                 break;
             case 3:
-                if (Inventory.getQuantity("Seaweed") < 13) {
-                    int rand = Random.nextInt(0, 10000);
-                    if (rand < 6000) {
-                        Bank.withdraw("Seaweed", 0);
-                    } else if (rand > 7000) {
-                        Bank.withdraw("Seaweed", -1);
-                    } else {
-                        Bank.withdraw("Seaweed", 13);
-                    }
+                if (Inventory.getQuantity("Giant seaweed") < 3) {
+                    if (Bank.getQuantity("Giant seaweed") < 3) pause();
+                    Bank.withdraw("Giant seaweed", 3);
                 } else {
                     state++;
                 }
@@ -124,7 +120,6 @@ public class bankSkiller extends LoopingBot {
             case 5:
                 Magic.Lunar.SUPERGLASS_MAKE.activate();
                 GameObjects.newQuery().actions("Bank").results().nearest().hover();
-                //GameObjects.getLoaded("Chest").nearest().hover();
                 state = 0;
                 break;
         }

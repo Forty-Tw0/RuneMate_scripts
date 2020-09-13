@@ -1,0 +1,28 @@
+<manifest>
+    <main-class>agileElf.agileElf</main-class>
+    <name>AgileElf</name>
+    <tag-line></tag-line><!--Max of 50 chars-->
+    <description>agileElf</description><!--Max of 110 chars-->
+    <version>1.0.0</version>
+    <compatibility>
+        <game>OSRS</game>
+    </compatibility>
+    <categories>
+        <category>AGILITY</category>
+    </categories>
+    <!--Required to publish on the bot store-->
+    <internal-id>agileElf42</internal-id>
+    <!--The rest are optional-->
+    <open-source>true</open-source>
+    <hidden>false</hidden> <!--If you need to hide it from the bot store for maintenance-->
+    <access>public</access>
+    <tags>
+        <tag>Agility</tag>
+        <tag>Prif</tag>
+        <tag>Priff</tag>
+        <tag>Prifddinas</tag>
+    </tags>
+    <resources>
+        <resource></resource>
+    </resources>
+</manifest>
