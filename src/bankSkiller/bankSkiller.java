@@ -1,7 +1,6 @@
 package bankSkiller;
 
 import com.runemate.game.api.hybrid.GameEvents;
-import com.runemate.game.api.hybrid.entities.Player;
 import com.runemate.game.api.hybrid.input.Keyboard;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Bank;
 import com.runemate.game.api.hybrid.local.hud.interfaces.ChatDialog;

@@ -2,6 +2,7 @@ package petrifiedWoodcutter;
 
 import com.runemate.game.api.hybrid.GameEvents;
 import com.runemate.game.api.hybrid.entities.GameObject;
+import com.runemate.game.api.hybrid.entities.Player;
 import com.runemate.game.api.hybrid.input.Keyboard;
 import com.runemate.game.api.hybrid.input.Mouse;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Inventory;
@@ -11,8 +12,10 @@ import com.runemate.game.api.hybrid.region.GameObjects;
 import com.runemate.game.api.hybrid.region.Players;
 import com.runemate.game.api.script.framework.LoopingBot;
 
+import java.util.Objects;
+
 public class petrifiedWoodcutter extends LoopingBot {
-    int dropState = 0;
+    boolean dropping = false;
     int dropPos = 0;
 
     @Override
@@ -23,24 +26,26 @@ public class petrifiedWoodcutter extends LoopingBot {
 
     @Override
     public void onLoop() {
-        if (dropState == 0 && Inventory.isFull()) {
+        if (!dropping && Inventory.isFull()) {
             Keyboard.pressKey(0x10);
-            dropState = 1;
-        } else if (dropState == 1) {
+            dropping = true;
+        } else if (dropping) {
+            Keyboard.pressKey(0x10); // just to make sure it is pressed
             SpriteItem item = Inventory.getItemIn(dropPos);
-            if (item != null && item.getDefinition().getName().equals("Teak logs")) item.interact("Drop");
+            if (item != null && Objects.requireNonNull(item.getDefinition()).getName().equals("Teak logs")) item.click();
             if (dropPos == 27) {
                 Keyboard.releaseKey(0x10);
                 dropPos = 0;
-                dropState = 0;
+                dropping = false;
                 return;
             }
             dropPos += 4;
-            if (dropPos > 27) dropPos -= 27;
+            if (dropPos > 27) dropPos -= 27; // -=27 retains the column number
         }
         else {
             if (Inventory.getSelectedItem() != null) Inventory.getSelectedItem().click();
-            if (!Players.getLocal().isMoving() && Players.getLocal().getAnimationId() == -1 && Mouse.getCrosshairState() == Mouse.CrosshairState.NONE) {
+            Player player = Players.getLocal();
+            if (player != null && !player.isMoving() && player.getAnimationId() == -1 && Mouse.getCrosshairState() == Mouse.CrosshairState.NONE) {
                 GameObject tree = GameObjects.newQuery().names("Teak Tree").results().nearest();
                 if (tree != null) {
                     tree.interact("Chop down");

@@ -40,10 +40,10 @@ public class zmi extends LoopingBot {
         GameObject altar = GameObjects.newQuery().names("Runecrafting altar").results().nearest();
         Npc banker = Npcs.newQuery().names("Eniola").results().nearest();
         if (ladder != null) {
-            if (ChatDialog.getContinue() != null) {
-                ChatDialog.getContinue().select(true);
-            }
-            else if (Inventory.getQuantity(564) > 0 &&
+            ChatDialog.Continue continueOption = ChatDialog.getContinue();
+            if (continueOption != null) {
+                continueOption.select(true);
+            } else if (Inventory.getQuantity(564) > 0 &&
                     (Inventory.contains(5511) || Inventory.contains(5513) || Inventory.contains(5515))
             ) {
                 if (Players.getLocal().getAnimationId() == -1) Magic.Lunar.NPC_CONTACT.activate("Dark Mage");
