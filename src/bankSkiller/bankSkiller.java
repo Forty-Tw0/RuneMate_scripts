@@ -1,6 +1,8 @@
 package bankSkiller;
 
 import com.runemate.game.api.hybrid.GameEvents;
+import com.runemate.game.api.hybrid.entities.GameObject;
+import com.runemate.game.api.hybrid.entities.details.Interactable;
 import com.runemate.game.api.hybrid.input.Keyboard;
 import com.runemate.game.api.hybrid.local.hud.interfaces.Bank;
 import com.runemate.game.api.hybrid.local.hud.interfaces.ChatDialog;
@@ -13,6 +15,7 @@ import com.runemate.game.api.osrs.local.hud.interfaces.Magic;
 import com.runemate.game.api.script.Execution;
 import com.runemate.game.api.script.framework.LoopingBot;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class bankSkiller extends LoopingBot {
@@ -23,25 +26,30 @@ public class bankSkiller extends LoopingBot {
     }
 
     int state = 0;
+    final Pattern bow_u = Pattern.compile(".*bow \\(u\\)");
+    final Pattern bowOrString = Pattern.compile(".*bow \\(u\\)|Bow String");
+    final Pattern bow = Pattern.compile(".*bow$");
+    final Pattern dragonhide = Pattern.compile(".* dragonhide$");
+    final Pattern bankPattern = Pattern.compile(".*[Bb]ank.*");
 
     @Override
     public void onLoop() {
-        superGlass();
+        stringing();
     }
 
     void stringing() {
-        if (ChatDialog.getContinue() != null || !Inventory.contains(Pattern.compile(".*bow \\(u\\)")) || !Inventory.contains(Pattern.compile("Bow string"))) {
+        if (ChatDialog.getContinue() != null || !Inventory.contains(bow_u) || !Inventory.contains("Bow string")) {
             if (!Bank.isOpen()) {
                 Bank.open();
             }
             else {
-                if (!Inventory.isEmpty() && Inventory.containsAnyExcept(Pattern.compile(".*bow \\(u\\)|Bow String"))) {
+                if (!Inventory.isEmpty() && Inventory.containsAnyExcept(bowOrString) || Inventory.getQuantity(bow_u) > 14 || Inventory.getQuantity("Bow String") > 14) {
                     Bank.depositInventory();
                 }
-                else if (!Inventory.contains(Pattern.compile(".*bow \\(u\\)"))) {
-                    Bank.withdraw(Pattern.compile(".*bow \\(u\\)"), 14);
+                else if (!Inventory.contains(bow_u)) {
+                    Bank.withdraw(bow_u, 14);
                 }
-                else if (!Inventory.contains(Pattern.compile("Bow string"))) {
+                else if (!Inventory.contains("Bow string")) {
                     int rand = Random.nextInt(0, 10000);
                     if (rand < 6000) {
                         Bank.withdraw("Bow string", 0);
@@ -60,17 +68,20 @@ public class bankSkiller extends LoopingBot {
             Keyboard.typeKey(27);
         }
         else {
-            if (Interfaces.newQuery().actions("String").results().first() != null) {
+            if (Interfaces.newQuery().containers(270).actions("String").results().first() != null) {
                 Keyboard.typeKey(32);
+                Interactable bank = GameObjects.newQuery().names(bankPattern).results().nearest();
+                if (bank != null) bank.hover();
                 Execution.delayUntil(() -> Inventory.getEmptySlots() > 1, 4200);
             }
-            else if (!Inventory.contains(Pattern.compile(".*bow$")) && Players.getLocal().getAnimationId() == -1) {
+            else if (!Inventory.contains(bow) && Objects.requireNonNull(Players.getLocal()).getAnimationId() == -1) {
                 if (Inventory.getSelectedItem() == null) {
-                    if (Inventory.getItemIn(12) != null) Inventory.getItemIn(12).click();
+                    if (Inventory.getItemIn(12) != null) Objects.requireNonNull(Inventory.getItemIn(12)).click();
+                    Execution.delayUntil(() -> Inventory.getSelectedItem() != null, 420);
                 }
                 else {
-                    if (Inventory.getItemIn(16) != null) Inventory.getItemIn(16).click();
-                    Execution.delayUntil(() -> Interfaces.newQuery().actions("String").results().first() != null, 4200);
+                    if (Inventory.getItemIn(16) != null) Objects.requireNonNull(Inventory.getItemIn(16)).click();
+                    Execution.delayUntil(() -> Interfaces.newQuery().containers(270).actions("String").results().first() != null, 4200);
                 }
             }
         }
@@ -118,7 +129,7 @@ public class bankSkiller extends LoopingBot {
                 break;
             case 5:
                 Magic.Lunar.SUPERGLASS_MAKE.activate();
-                GameObjects.newQuery().actions("Bank").results().nearest().hover();
+                Objects.requireNonNull(GameObjects.newQuery().actions("Bank").results().nearest()).hover();
                 state = 0;
                 break;
         }
@@ -142,14 +153,14 @@ public class bankSkiller extends LoopingBot {
                 }
                 break;
             case 2:
-                if (Inventory.getQuantity(Pattern.compile(".* dragonhide$")) == 0) {
+                if (Inventory.getQuantity() == 0) {
                     int rand = Random.nextInt(0, 10000);
                     if (rand < 6000) {
-                        Bank.withdraw(Pattern.compile(".* dragonhide$"), 0);
+                        Bank.withdraw(dragonhide, 0);
                     } else if (rand > 7000) {
-                        Bank.withdraw(Pattern.compile(".* dragonhide$"), -1);
+                        Bank.withdraw(dragonhide, -1);
                     } else {
-                        Bank.withdraw(Pattern.compile(".* dragonhide$"), 25);
+                        Bank.withdraw(dragonhide, 25);
                     }
                 } else {
                     state++;
@@ -163,7 +174,7 @@ public class bankSkiller extends LoopingBot {
                 }
                 break;
             case 4:
-                if (Inventory.containsAnyOf(Pattern.compile(".* dragonhide$")) && castCount < 5) {
+                if (Inventory.containsAnyOf(dragonhide) && castCount < 5) {
                     if (Magic.Lunar.TAN_LEATHER.activate()) castCount++;
                 } else {
                     castCount = 0;
